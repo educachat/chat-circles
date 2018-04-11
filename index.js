@@ -21,5 +21,5 @@ io.on('connection', (socket) => {
 });
 
 http.listen(3000, () => {
-  console.log('listening on %d', 3000);
+  console.log('listening on http://localhost:%d', 3000);
 });
