@@ -9,6 +9,8 @@
 </head>
 <body>
   <div class="container">
+    <ul id="messages"></ul>
+    <hr>
     <div class="aba">
       <ul class="aba-lista">
         <li class="aba-lista-item"><a href="#">Item 1</a></li>
@@ -35,7 +37,19 @@
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io();
+    $(function () {
+      var socket = io();
+      $('form').submit(function(){
+        // event.preventDefault();
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        // $('#messages').append($('<li>').text(msg));
+          $('#me-123').append($('<p>').text(msg));
+      });
+    });
   </script>
 </body>
 </html>
