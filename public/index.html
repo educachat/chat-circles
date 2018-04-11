@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chat Circle</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div class="container">
+    <div class="aba">
+      <ul class="aba-lista">
+        <li class="aba-lista-item"><a href="#">Item 1</a></li>
+        <li class="aba-lista-item"><a href="#">Item 2</a></li>
+        <li class="aba-lista-item"><a href="#">Item 3</a></li>
+      </ul>
+      <div class="aba-conteudo chat">
+        <div class="user"></div>
+        <div class="user"></div>
+        <div id="me-123" class="user me"></div>
+        <div class="user"></div>
+        <div class="user"></div>
+        <form action="" class="chat-controle">
+          <input type="text" id="m" class="input-mensagem"  autocomplete="off">
+          <input type="submit">
+        </form>
+      </div>
+      <div class="aba-conteudo">Illo corporis porro quas eaque libero temporibus a deleniti, facere praesentium officia rem quam expedita repudiandae molestiae voluptatem minus harum. Fugiat ratione facilis officia nesciunt quos sapiente soluta quasi explicabo?</div>
+      <div class="aba-conteudo">Ea, iusto! Dolore, ipsum? Velit molestias explicabo dignissimos est enim, aliquid vero et laboriosam voluptates cum adipisci. Vero quam veritatis sed, dicta unde ex nam dolore, voluptates dolorum quo eaque.</div>
+    </div>
+  </div>
+  <script src="http://code.interactjs.io/v1.3.3/interact.min.js"></script>
+  <script src="scripts/interacoes/drag-and-drop.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+  </script>
+</body>
+</html>

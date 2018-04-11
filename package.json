@@ -1,0 +1,24 @@
+{
+  "name": "chat-circles",
+  "version": "1.0.0",
+  "description": "É a tentativa de revitalização do projeto [Chat Circles](http://alumni.media.mit.edu/~fviegas/projects/chatcircles/index.htm) de [Fernanda Viégas](http://fernandaviegas.com/) e [Judith Donath](http://smg.media.mit.edu/people/judith/).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/educachat/chat-circles.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/educachat/chat-circles/issues"
+  },
+  "homepage": "https://github.com/educachat/chat-circles#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.0"
+  }
+}
