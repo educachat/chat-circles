@@ -14,6 +14,10 @@ $(function () {
     '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
   ];
 
+	getParticipants = () => {
+		
+	}
+	
   addParticipantsMessage = (data) => {
     let message = '';
     if (data.numUsers === 1) {
@@ -43,13 +47,20 @@ $(function () {
     // console.log(`me: ${me}`);
   });
 
-  socket.on('connectedUser', (users) => {
+  socket.on('connectedUser', (user) => {
     let name = $('#usernameInput').val();
-    socket.name = users;
-    if (users) {
-      console.log(`${users} entrou na sala.`);
+    socket.name = user;
+    if (user) {
+      console.log(`${user} entrou na sala.`);
     }
-  })
+  });
+  
+  socket.on('users', (users) => {
+  	users.map((user) => {
+  		console.log(user);
+  		$('#chat-area').append($(`<div id="${ user.id }" class="user">`));
+  	});
+  });
 
   socket.on('chat message', (msg) => {
     // $('#messages').append($('<li>').text(msg));

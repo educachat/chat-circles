@@ -3,6 +3,7 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const room = 'chat-circle';
+let users = [];
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
@@ -14,13 +15,15 @@ io.on('connection', (socket) => {
 
   socket.on('room', function(room) {
     socket.join(room);
-    console.log('a user connected');
+    console.log('guest user connected');
   });
 
-  socket.on('connectedUser', (users) => {
-    socket.name = users;
-    io.emit('connectedUser', users);
-    console.log(`${users} entrou no chat`);
+  socket.on('connectedUser', (user) => {
+    users.push({'id': socket.id, 'user': user});
+    io.emit('connectedUser', user);
+    io.emit('users', users);
+    console.log(`${user} entrou no chat`);
+    console.log(users);
   });
 
   socket.on('disconnect', () => console.log('user disconnected'));
