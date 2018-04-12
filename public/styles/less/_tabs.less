@@ -1,0 +1,25 @@
+.tabs {
+  display: flex;
+  flex-flow: column;
+  &-list {
+    display: flex;
+    list-style-type: none;
+
+    &-item {
+
+      a {
+        display: block;
+        padding: @espaco-padrao;
+      }
+    }
+  }
+
+
+  &-content {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}

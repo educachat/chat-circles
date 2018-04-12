@@ -1,7 +1,13 @@
-.rounded(@r: 5px) when (@theme-rounded = true) {
-  border-radius: @r;
-}
 
 .animated(@v: .3s) when (@theme-animated = true) {
   transition: @v ease all;
+}
+
+.noInput {
+  border: none;
+  outline: none;
+}
+
+.rounded(@r: 5px) when (@theme-rounded = true) {
+  border-radius: @r;
 }

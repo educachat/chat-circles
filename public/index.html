@@ -9,50 +9,46 @@
 </head>
 <body>
   <div class="container">
-    <ul id="messages"></ul>
-    <hr>
-    <div class="aba">
-      <ul class="aba-lista">
-        <li class="aba-lista-item"><a href="#">Item 1</a></li>
-        <li class="aba-lista-item"><a href="#">Item 2</a></li>
-        <li class="aba-lista-item"><a href="#">Item 3</a></li>
-      </ul>
-      <div class="aba-conteudo chat">
-        <div class="user"></div>
-        <div class="user"></div>
-        <div id="me-123" class="user me"></div>
-        <div class="user"></div>
-        <div class="user"></div>
-        <form action="" class="chat-controle">
-          <input type="text" id="m" class="input-mensagem"  autocomplete="off">
-          <input type="submit">
+    <div class="pages">
+      <div class="login page">
+        <h1>Bem vindo ao Chat Circle</h1>
+        <form action="#" id="userForm">
+          <input type="text" id="usernameInput" placeholder="seu apelido...">
         </form>
       </div>
-      <div class="aba-conteudo">Illo corporis porro quas eaque libero temporibus a deleniti, facere praesentium officia rem quam expedita repudiandae molestiae voluptatem minus harum. Fugiat ratione facilis officia nesciunt quos sapiente soluta quasi explicabo?</div>
-      <div class="aba-conteudo">Ea, iusto! Dolore, ipsum? Velit molestias explicabo dignissimos est enim, aliquid vero et laboriosam voluptates cum adipisci. Vero quam veritatis sed, dicta unde ex nam dolore, voluptates dolorum quo eaque.</div>
+      <div class="chat page">
+        <div class="tabs">
+          <ul class="tabs-list">
+            <li class="tabs-list-item" data-target="chat-area"><a href="#">Chat</a></li>
+            <li class="tabs-list-item" data-target="log"><a href="#">Histórico</a></li>
+            <li class="tabs-list-item" data-target="help"><a href="#">Ajuda</a></li>
+          </ul>
+          <div id="chat-area" class="tabs-content chat-area">
+            <div class="user"></div>
+            <div class="user"></div>
+            <div id="me-123" class="user me"></div>
+            <div class="user"></div>
+            <div class="user"></div>
+            <form action="" class="chat-area-form">
+              <input type="text" id="m" class="messageInput"  autocomplete="off">
+              <input type="submit">
+            </form>
+          </div>
+          <div id="log" class="tabs-content">
+            <h2>Log</h2>
+            <ul id="messages"></ul>
+          </div>
+          <div id="help" class="tabs-content">Seção de Ajuda</div>
+        </div>
+      </div>
     </div>
   </div>
   <script src="http://code.interactjs.io/v1.3.3/interact.min.js"></script>
   <script src="scripts/interacoes/drag-and-drop.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    $(function () {
-      var socket = io();
-      $('form').submit(function(){
-        // event.preventDefault();
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        // $('#messages').append($('<li>').text(msg));
-          $('#me-123').append($('<p>').text(msg));
-          setTimeout(() => {
-            $('#me-123 p').hide();
-          }, 2000);
-      });
-    });
-  </script>
+  <script src="scripts/chat/geral.js"></script>
+  <script src="scripts/interacoes/tabs.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>
