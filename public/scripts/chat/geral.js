@@ -15,9 +15,9 @@ $(function () {
   ];
 
 	getParticipants = () => {
-		
+
 	}
-	
+
   addParticipantsMessage = (data) => {
     let message = '';
     if (data.numUsers === 1) {
@@ -49,16 +49,17 @@ $(function () {
 
   socket.on('connectedUser', (user) => {
     let name = $('#usernameInput').val();
-    socket.name = user;
     if (user) {
       console.log(`${user} entrou na sala.`);
     }
   });
-  
+
   socket.on('users', (users) => {
-  	users.map((user) => {
+    users.map((user) => {
+      if ($(`#${user.id}`).length === 0) {
+        $('#chat-area').append($(`<div id="${ user.id }" class="user ${me === user.id ? 'me' : ''}">`));
+      }
   		console.log(user);
-  		$('#chat-area').append($(`<div id="${ user.id }" class="user">`));
   	});
   });
 
@@ -69,8 +70,6 @@ $(function () {
       $('#me-123 p').hide();
     }, 2000);
   });
-
-  console.log(socket.name);
 
   $('#userForm').submit(() => {
     event.preventDefault();
