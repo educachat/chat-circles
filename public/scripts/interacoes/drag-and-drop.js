@@ -15,43 +15,43 @@ interact('.user.me')
   });
 
 function dragMoveSocket(user) {
-    var target = document.getElementById(user.id),
-        // keep the dragged position in the data-x/data-y attributes
-        x = user.x,
-        y = user.y;
+  const targetClass = `.user-${user.id}`;
+  const target = document.querySelector(targetClass);
+  let x = user.x;
+  let y = user.y;
 
-    // translate the element
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
+  // translate the element
+  target.style.webkitTransform =
+  target.style.transform =
+    'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-  }
+  // update the posiion attributes
+  target.setAttribute('data-x', x);
+  target.setAttribute('data-y', y);
+}
 
-  function dragMoveListener (event) {
-    const socket = io();
-    let user;
-    var target = event.target,
-        // keep the dragged position in the data-x/data-y attributes
-        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+function dragMoveListener (event) {
+  const socket = io();
+  let user;
+  var target = event.target,
+      // keep the dragged position in the data-x/data-y attributes
+      x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+      y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-    // translate the element
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
+  // translate the element
+  target.style.webkitTransform =
+  target.style.transform =
+    'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
+  // update the posiion attributes
+  target.setAttribute('data-x', x);
+  target.setAttribute('data-y', y);
 
-    user = me;
-    user.x = x;
-    user.y = y;
-    socket.emit('dragUser', user);
-  }
+  user = me;
+  user.x = x;
+  user.y = y;
+  socket.emit('dragUser', user);
+}
 
-  // this is used later in the resizing and gesture demos
-  window.dragMoveListener = dragMoveListener;
+// this is used later in the resizing and gesture demos
+window.dragMoveListener = dragMoveListener;

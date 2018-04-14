@@ -32,18 +32,18 @@ io.on('connection', (socket) => {
   socket.on('usersListed', (username) => {
     io.emit('userConnected', username);
     io.emit('usersListed', users);
-    console.log(`${username} entrou no chat`);
-    console.log(users);
+    // console.log(`${username} entrou no chat`);
+    // console.log(users);
   });
 
   socket.on('disconnect', () => {
     let user = users.find(x => x.id === socket.id);
-    console.log(user);
+    // console.log(user);
     socket.broadcast.emit('userLeft', user);
   });
 
   socket.on('userSendMessage', (msg) => {
-    console.log(`${msg.user.username} falou ${msg.text}.`);
+    // console.log(`${msg.user.username} falou ${msg.text}.`);
     io.to(room).emit('chatMessage', msg);
   });
 
@@ -57,5 +57,5 @@ io.on('connection', (socket) => {
 });
 
 http.listen(3000, () => {
-  console.log('listening on http://localhost:%d', 3000);
+  // console.log('listening on http://localhost:%d', 3000);
 });

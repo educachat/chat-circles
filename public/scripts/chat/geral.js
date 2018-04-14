@@ -33,24 +33,24 @@ const messageInput = document.querySelector('#messageInput');
 
 onConnect = () => {
   me.id = socket.id;
-  console.log('conectado ao chat');
+  // console.log('conectado ao chat');
 };
 
 onUserConnected = (user) => {
-  console.log('user', user);
+  // console.log('user', user);
   if (user) {
     socket.emit('room', room);
-    console.log(`${user.username} entrou na sala.`);
+    // console.log(`${user.username} entrou na sala.`);
   }
 };
 
 onUsersListed = (users) => {
-  console.log(users);
+  // console.log(users);
   users.map((user) => {
     let userElement = document.createElement('div');
     let userClass = `user-${user.id}`;
-    console.log(userClass);
-    console.log(document.querySelectorAll(`.${userClass}`));
+    // console.log(userClass);
+    // console.log(document.querySelectorAll(`.${userClass}`));
     if (document.querySelectorAll(`.${userClass}`).length === 0) {
       userElement.classList.add('user', userClass);
       userElement.style.backgroundColor = user.color;
@@ -58,7 +58,7 @@ onUsersListed = (users) => {
         userElement.classList.add('me');
       }
       chatArea.appendChild(userElement);
-      console.log(`${user.username} entrou no chat`);
+      // console.log(`${user.username} entrou no chat`);
     }
   });
 };
@@ -67,7 +67,7 @@ onUserLeft = (user) => {
   if (user) {
     let userClass = `user-${user.id}`;
     let userElement = document.querySelector(`.${userClass}`)
-    console.log(`${user.username} saiu do chat`);
+    // console.log(`${user.username} saiu do chat`);
     chatArea.removeChild(userElement);
   }
 }
@@ -77,7 +77,7 @@ userForm.addEventListener('submit',() => {
   me.username  = usernameInput.value;
   socket.emit('userAccessRoom', me);
   loginPage.style.display = 'none';
-  console.log('me', me);
+  // console.log('me', me);
 });
 
 messageForm.addEventListener('submit', () => {
@@ -86,7 +86,7 @@ messageForm.addEventListener('submit', () => {
     user: me,
     text: messageInput.value,
   };
-  console.log(message);
+  // console.log(message);
   socket.emit('userSendMessage', message);
   messageInput.value = '';
   return false;
@@ -111,9 +111,9 @@ socket.on('usersListed', onUsersListed);
 socket.on('userLeft', onUserLeft);
 socket.on('chatMessage', onChatMessage);
 
-// socket.on('dragUser', (user) => {
-//   dragMoveSocket(user);
-// });
+socket.on('dragUser', (user) => {
+  dragMoveSocket(user);
+});
 
 
 // 

@@ -8,7 +8,7 @@
     $(items).on({
       click: (ev) => {
         let target = ev.currentTarget.dataset.target;
-        console.log(items);
+        // console.log(items);
         $(contents).removeClass('active');
         $(`#${target}`).addClass('active');
       }
