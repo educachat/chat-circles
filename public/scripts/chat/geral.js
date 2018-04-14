@@ -1,7 +1,7 @@
 const socket = io();
-let room = 'chat-circle';
+const room = 'chat-circle';
 
-let colors = [
+const colors = [
   '#e21400', '#91580f', '#f8a700', '#f78b00',
   '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
   '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
@@ -9,7 +9,7 @@ let colors = [
 let me = {
   color: colors[Math.floor(Math.random() * colors.length)],
   id: null,
-  room: room,
+  room,
   username: null,
   x: null,
   y: null,
@@ -22,12 +22,14 @@ let typing = false;
 let lastTypingTime;
 
 // login
-let loginPage = document.querySelector('#loginPage');
-let userForm = document.querySelector('#userForm');
-let usernameInput = document.querySelector('#usernameInput');
+const loginPage = document.querySelector('#loginPage');
+const userForm = document.querySelector('#userForm');
+const usernameInput = document.querySelector('#usernameInput');
 
 // chat
-let chatArea = document.querySelector('#chatArea');
+const chatArea = document.querySelector('#chatArea');
+const messageForm = document.querySelector('#messageForm');
+const messageInput = document.querySelector('#messageInput');
 
 onConnect = () => {
   me.id = socket.id;
@@ -70,24 +72,6 @@ onUserLeft = (user) => {
   }
 }
 
-
-
-
-
-
-
-// socket.on('chat message', (msg) => {
-  // $('#messages').append($('<li>').text(msg));
-  // $().append($('<p>').text(msg));
-  // setTimeout(() => {
-  //   $('#me-123 p').hide();
-  // }, 2000);
-// });
-
-// socket.on('dragUser', (user) => {
-//   dragMoveSocket(user);
-// });
-
 userForm.addEventListener('submit',() => {
   event.preventDefault();
   me.username  = usernameInput.value;
@@ -96,14 +80,41 @@ userForm.addEventListener('submit',() => {
   console.log('me', me);
 });
 
-// $('form').submit(() => {
-//   event.preventDefault();
-//   socket.emit('chat message', $('#m').val());
-//   $('#m').val('');
-//   return false;
-// });
+messageForm.addEventListener('submit', () => {
+  event.preventDefault();
+  let message = {
+    user: me,
+    text: messageInput.value,
+  };
+  console.log(message);
+  socket.emit('userSendMessage', message);
+  messageInput.value = '';
+  return false;
+});
+
+onChatMessage = (msg) => {
+  const userClass = `user-${msg.user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  const textElement = document.createElement('p');
+  const { text } = msg;
+
+  textElement.innerText = text;
+  userElement.appendChild(textElement);
+  setTimeout(() => {
+    userElement.removeChild(textElement);
+  }, 3000);
+}
 
 socket.on('connect', onConnect);
 socket.on('userConnected', onUserConnected);
 socket.on('usersListed', onUsersListed);
 socket.on('userLeft', onUserLeft);
+socket.on('chatMessage', onChatMessage);
+
+// socket.on('dragUser', (user) => {
+//   dragMoveSocket(user);
+// });
+
+
+// 
+

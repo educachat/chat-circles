@@ -1,7 +1,9 @@
 const express = require('express');
+
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+
 const room = 'chat-circle';
 let users = [];
 let user = {
@@ -40,13 +42,13 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('userLeft', user);
   });
 
-  socket.on('chat message', (msg) => {
-    console.log(`message: ${msg}`);
-    io.to(room).emit('chat message', msg);
+  socket.on('userSendMessage', (msg) => {
+    console.log(`${msg.user.username} falou ${msg.text}.`);
+    io.to(room).emit('chatMessage', msg);
   });
 
   socket.on('dragUser', (newUser) => {
-    users.forEach(user => {
+    users.forEach((user) => {
       (user.id === newUser.id) ? user = newUser : '';
       io.to(room).emit('dragUser', user);
     });
