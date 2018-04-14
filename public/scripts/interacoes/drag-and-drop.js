@@ -15,7 +15,6 @@ interact('.user.me')
   });
 
 function dragMoveSocket(user) {
-  console.log(user.id);
     var target = document.getElementById(user.id),
         // keep the dragged position in the data-x/data-y attributes
         x = user.x,
@@ -51,7 +50,6 @@ function dragMoveSocket(user) {
     user = me;
     user.x = x;
     user.y = y;
-    console.log(user);
     socket.emit('dragUser', user);
   }
 

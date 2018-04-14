@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <div class="pages">
-      <div class="login page">
+      <div id="loginPage" class="login page">
         <h1>Bem vindo ao Chat Circle</h1>
         <form action="#" id="userForm">
           <input type="text" id="usernameInput" placeholder="seu apelido...">
@@ -23,7 +23,8 @@
             <li class="tabs-list-item" data-target="log"><a href="#">Histórico</a></li>
             <li class="tabs-list-item" data-target="help"><a href="#">Ajuda</a></li>
           </ul>
-          <div id="chat-area" class="tabs-content chat-area">
+          <div class="tabs-content">
+            <div id="chatArea" class="chat-area"></div>
             <form action="" class="chat-area-form">
               <input type="text" id="m" class="messageInput"  autocomplete="off">
               <input type="submit">
@@ -40,10 +41,10 @@
   </div>
   <script src="http://code.interactjs.io/v1.3.3/interact.min.js"></script>
   <script src="scripts/interacoes/drag-and-drop.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="scripts/chat/geral.js"></script>
-  <script src="scripts/interacoes/tabs.js"></script>
-  <script src="scripts/main.js"></script>
+  <!-- <script src="scripts/interacoes/tabs.js"></script>
+  <script src="scripts/main.js"></script> -->
 </body>
 </html>
