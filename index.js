@@ -50,9 +50,19 @@ io.on('connection', (socket) => {
   socket.on('dragUser', (newUser) => {
     users.forEach((user) => {
       (user.id === newUser.id) ? user = newUser : '';
-      io.to(room).emit('dragUser', user);
+      socket.broadcast.to(room).emit('dragUser', user);
     });
   });
+
+  onUserTyping = (user) => {
+    socket.broadcast.to(room).emit('userTyping', user);
+  }
+  onUserTypingStop = (user) => {
+    socket.broadcast.to(room).emit('userTypingStop', user);
+  }
+
+  socket.on('userTyping', onUserTyping);
+  socket.on('userTypingStop', onUserTypingStop);
 
 });
 

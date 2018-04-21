@@ -58,7 +58,7 @@ onUsersListed = (users) => {
         userElement.classList.add('me');
       }
       chatArea.appendChild(userElement);
-      // console.log(`${user.username} entrou no chat`);
+      console.log(`${user.username} entrou no chat`);
     }
   });
 };
@@ -67,10 +67,60 @@ onUserLeft = (user) => {
   if (user) {
     let userClass = `user-${user.id}`;
     let userElement = document.querySelector(`.${userClass}`)
-    // console.log(`${user.username} saiu do chat`);
+    console.log(`${user.username} saiu do chat`);
     chatArea.removeChild(userElement);
   }
 }
+
+onChatMessage = (msg) => {
+  const userClass = `user-${msg.user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  const textElement = document.createElement('p');
+  const { text } = msg;
+
+  textElement.innerText = text;
+  userElement.appendChild(textElement);
+  setTimeout(() => {
+    userElement.removeChild(textElement);
+  }, 3000);
+}
+
+onUserTyping = (user) => {
+  const userClass = `user-${user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  userElement.classList.add('typing');
+
+}
+
+onUserTypingStop = (user) => {
+  const userClass = `user-${user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  userElement.classList.remove('typing');
+
+}
+
+socket.on('connect', onConnect);
+socket.on('userConnected', onUserConnected);
+socket.on('usersListed', onUsersListed);
+socket.on('userLeft', onUserLeft);
+socket.on('chatMessage', onChatMessage);
+socket.on('userTyping', onUserTyping);
+socket.on('userTypingStop', onUserTypingStop);
+
+socket.on('dragUser', (user) => {
+  console.log(user);
+  dragMoveSocket(user);
+});
+
+messageInput.addEventListener('keyup', (event) => {
+  console.log(event.target.value);
+  console.log(event.target.value.length);
+  if (event.target.value.length > 0) {
+    socket.emit('userTyping', me);
+  } else {
+    socket.emit('userTypingStop', me);
+  }
+});
 
 userForm.addEventListener('submit',() => {
   event.preventDefault();
@@ -88,33 +138,9 @@ messageForm.addEventListener('submit', () => {
   };
   // console.log(message);
   socket.emit('userSendMessage', message);
+  socket.emit('userTypingStop', me);
   messageInput.value = '';
   return false;
 });
-
-onChatMessage = (msg) => {
-  const userClass = `user-${msg.user.id}`;
-  const userElement = document.querySelector(`.${userClass}`);
-  const textElement = document.createElement('p');
-  const { text } = msg;
-
-  textElement.innerText = text;
-  userElement.appendChild(textElement);
-  setTimeout(() => {
-    userElement.removeChild(textElement);
-  }, 3000);
-}
-
-socket.on('connect', onConnect);
-socket.on('userConnected', onUserConnected);
-socket.on('usersListed', onUsersListed);
-socket.on('userLeft', onUserLeft);
-socket.on('chatMessage', onChatMessage);
-
-socket.on('dragUser', (user) => {
-  dragMoveSocket(user);
-});
-
-
 // 
 
