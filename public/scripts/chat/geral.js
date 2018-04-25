@@ -116,8 +116,10 @@ messageInput.addEventListener('keyup', (event) => {
   console.log(event.target.value);
   console.log(event.target.value.length);
   if (event.target.value.length > 0) {
+    document.querySelector('.me').classList.add('typing');
     socket.emit('userTyping', me);
   } else {
+    document.querySelector('.me').classList.remove('typing');
     socket.emit('userTypingStop', me);
   }
 });
