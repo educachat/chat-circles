@@ -82,7 +82,7 @@ onChatMessage = (msg) => {
   userElement.appendChild(textElement);
   setTimeout(() => {
     userElement.removeChild(textElement);
-  }, 3000);
+  }, (1+(0.04 * text.length))*1000);
 }
 
 onUserTyping = (user) => {
