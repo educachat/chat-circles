@@ -140,6 +140,7 @@ messageForm.addEventListener('submit', () => {
   };
   // console.log(message);
   socket.emit('userSendMessage', message);
+  document.querySelector('.me').classList.remove('typing');
   socket.emit('userTypingStop', me);
   messageInput.value = '';
   return false;
