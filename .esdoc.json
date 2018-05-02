@@ -1,0 +1,26 @@
+{
+  "source": "./public",
+  "destination": "./public/docs",
+  "plugins": [
+    {
+      "name": "esdoc-flow-type-plugin",
+      "option": {"enable": true}
+    },
+    {
+      "name": "esdoc-ecmascript-proposal-plugin",
+      "option": {
+        "all": true
+      }
+    },
+    {
+      "name": "esdoc-coverage-plugin", 
+      "option": {
+        "enable": true,
+        "kind": ["class", "method", "member", "get", "set", "constructor", "function", "variable"]
+      }
+    },
+    {
+      "name": "esdoc-publish-html-plugin"
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">public/scripts/chat/sockets.js</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#scripts-chat">scripts/chat</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/public/scripts/chat/mensagem.js~Mensagem.html">Mensagem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/public/scripts/chat/user.js~User.html">User</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-onConnect">onConnect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-chatArea">chatArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-colors">colors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-connected">connected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-loginPage">loginPage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-me">me</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-messageForm">messageForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-messageInput">messageInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-room">room</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-socket">socket</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-typing">typing</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-userForm">userForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-usernameInput">usernameInput</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#scripts-interacoes">scripts/interacoes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dragMoveListener">dragMoveListener</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dragMoveSocket">dragMoveSocket</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">public/scripts/chat/sockets.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const socket = io();
+const room = &apos;chat-circle&apos;;
+
+const colors = [
+  &apos;#e21400&apos;, &apos;#91580f&apos;, &apos;#f8a700&apos;, &apos;#f78b00&apos;,
+  &apos;#58dc00&apos;, &apos;#287b00&apos;, &apos;#a8f07a&apos;, &apos;#4ae8c4&apos;,
+  &apos;#3b88eb&apos;, &apos;#3824aa&apos;, &apos;#a700ff&apos;, &apos;#d300e7&apos;
+];
+let me = {
+  color: colors[Math.floor(Math.random() * colors.length)],
+  id: null,
+  room,
+  username: null,
+  x: null,
+  y: null,
+};
+
+// user
+// let username;
+let connected = false;
+let typing = false;
+let lastTypingTime;
+
+// login
+const loginPage = document.querySelector(&apos;#loginPage&apos;);
+const userForm = document.querySelector(&apos;#userForm&apos;);
+const usernameInput = document.querySelector(&apos;#usernameInput&apos;);
+
+// chat
+const chatArea = document.querySelector(&apos;#chatArea&apos;);
+const messageForm = document.querySelector(&apos;#messageForm&apos;);
+const messageInput = document.querySelector(&apos;#messageInput&apos;);
+
+let onConnect = () =&gt; {
+  me.id = socket.id;
+  // console.log(&apos;conectado ao chat&apos;);
+};
+
+onUserConnected = (user) =&gt; {
+  // console.log(&apos;user&apos;, user);
+  if (user) {
+    socket.emit(&apos;room&apos;, room);
+    // console.log(`${user.username} entrou na sala.`);
+  }
+};
+
+onUsersListed = (users) =&gt; {
+  // console.log(users);
+  users.map((user) =&gt; {
+    let userElement = document.createElement(&apos;div&apos;);
+    let userClass = `user-${user.id}`;
+    // console.log(userClass);
+    // console.log(document.querySelectorAll(`.${userClass}`));
+    if (document.querySelectorAll(`.${userClass}`).length === 0) {
+      userElement.classList.add(&apos;user&apos;, userClass);
+      userElement.style.backgroundColor = user.color;
+      if (user.id === me.id) {
+        userElement.classList.add(&apos;me&apos;);
+      }
+      chatArea.appendChild(userElement);
+      console.log(`${user.username} entrou no chat`);
+    }
+  });
+};
+
+onUserLeft = (user) =&gt; {
+  if (user) {
+    let userClass = `user-${user.id}`;
+    let userElement = document.querySelector(`.${userClass}`)
+    console.log(`${user.username} saiu do chat`);
+    chatArea.removeChild(userElement);
+  }
+}
+
+onChatMessage = (msg) =&gt; {
+  const userClass = `user-${msg.user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  const textElement = document.createElement(&apos;p&apos;);
+  const { text } = msg;
+
+  textElement.innerText = text;
+  userElement.appendChild(textElement);
+  setTimeout(() =&gt; {
+    userElement.removeChild(textElement);
+  }, (1+(0.04 * text.length))*1000);
+}
+
+onUserTyping = (user) =&gt; {
+  const userClass = `user-${user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  userElement.classList.add(&apos;typing&apos;);
+
+}
+
+onUserTypingStop = (user) =&gt; {
+  const userClass = `user-${user.id}`;
+  const userElement = document.querySelector(`.${userClass}`);
+  userElement.classList.remove(&apos;typing&apos;);
+
+}
+
+socket.on(&apos;connect&apos;, onConnect);
+socket.on(&apos;userConnected&apos;, onUserConnected);
+socket.on(&apos;usersListed&apos;, onUsersListed);
+socket.on(&apos;userLeft&apos;, onUserLeft);
+socket.on(&apos;chatMessage&apos;, onChatMessage);
+socket.on(&apos;userTyping&apos;, onUserTyping);
+socket.on(&apos;userTypingStop&apos;, onUserTypingStop);
+
+socket.on(&apos;dragUser&apos;, (user) =&gt; {
+  console.log(user);
+  dragMoveSocket(user);
+});
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
