@@ -26,14 +26,14 @@ io.on('connection', (socket) => {
   socket.on('userAccessRoom', (user) => {
     socket.join(user.room);
     users.push(user);
-    io.to(user.room).emit('usersListed', users);
+    io.to(room).emit('usersListed', users);
   })
 
   socket.on('usersListed', (username) => {
     io.emit('userConnected', username);
     io.emit('usersListed', users);
-    // console.log(`${username} entrou no chat`);
-    // console.log(users);
+    console.log(`${username} entrou no chat`);
+    console.log(users);
   });
 
   socket.on('disconnect', () => {
