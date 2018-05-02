@@ -4,7 +4,8 @@
   "description": "É a tentativa de revitalização do projeto [Chat Circles](http://alumni.media.mit.edu/~fviegas/projects/chatcircles/index.htm) de [Fernanda Viégas](http://fernandaviegas.com/) e [Judith Donath](http://smg.media.mit.edu/people/judith/).",
   "main": "index.js",
   "scripts": {
-    "build": "flow-remove-types src/ -d lib/",
+    "doc": "esdoc",
+    "build": "flow-remove-types public/ -d lib/",
     "flow": "flow",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +25,11 @@
     "socket.io": "^2.1.0"
   },
   "devDependencies": {
+    "esdoc": "^1.1.0",
+    "esdoc-coverage-plugin": "^1.1.0",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-flow-type-plugin": "^1.1.0",
+    "esdoc-publish-html-plugin": "^1.1.2",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
     "flow-bin": "^0.71.0",

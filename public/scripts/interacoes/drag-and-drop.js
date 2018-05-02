@@ -1,4 +1,9 @@
-// target elements with the "draggable" class
+
+
+/*
+ * Função de interação de Drag'n Drop do usuário
+ */
+
 interact('.user.me')
   .draggable({
     // keep the element within the area of it's parent
